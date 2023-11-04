@@ -1,13 +1,20 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int n = Integer.parseInt(br.readLine());
+        String[] input = br.readLine().split(" "); 
         int[] nums = new int[n];
 
         for (int i = 0; i < n; i++) {
-            nums[i] = scanner.nextInt();
+            nums[i] = Integer.parseInt(input[i]);
         }
 
         int target = nums[n - 1];
@@ -16,8 +23,8 @@ public class Main {
         long[][] dp = new long[n][21];
         dp[0][nums[0]] = 1L;
 
-        for (int i = 1; i < n - 1; i++) { 
-            for (int j = 0; j <= 20; j++) { 
+        for (int i = 1; i < n - 1; i++) {
+            for (int j = 0; j <= 20; j++) {
                 if (j + nums[i] <= 20) {
                     dp[i][j] += dp[i - 1][j + nums[i]];
                 }
@@ -27,7 +34,10 @@ public class Main {
             }
         }
 
-        System.out.println(dp[n - 2][target]);
-        scanner.close();
+        bw.write(dp[n - 2][target] + "\n");
+
+        br.close();
+        bw.flush();
+        bw.close();
     }
 }
